@@ -1,0 +1,19 @@
+{
+  "name": "survey-api",
+  "version": 2,
+  "builds": [
+    {
+        "src": "**/*.js",
+        "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/test",
+      "dest": "/api/test"
+    }
+  ],
+  "env": {
+    "MONGO_DB_URL": "@mongo_db_url"
+  }
+}

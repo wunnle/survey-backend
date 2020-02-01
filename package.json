@@ -1,0 +1,12 @@
+{
+  "name": "survey-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/wunnle/survey-backend.git",
+  "author": "wunnle <me@wunnle.com>",
+  "license": "MIT",
+  "dependencies": {
+    "global": "^4.4.0",
+    "mongodb": "^3.5.2"
+  }
+}
