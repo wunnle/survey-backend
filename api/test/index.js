@@ -7,7 +7,11 @@ module.exports = async (req, res) => {
 
   console.log('connected')
 
-  const collection = await db.collection('admins')
+  const collection = await db.collection('topics')
+
+  const count = await collection.count()
+
+  console.log(count)
 
   const users = await collection.find({}).toArray()
 

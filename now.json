@@ -14,6 +14,6 @@
     }
   ],
   "env": {
-    "MONGO_DB_URL": "@mongo_db_url"
+    "SURVEY_DB_URI": "@survey-db-uri"
   }
 }
