@@ -1,11 +1,9 @@
 const url = require('url')
 const MongoClient = require('mongodb').MongoClient
 
-
 let cachedDb = null
 async function connectToDatabase() {
   const uri = process.env.SURVEY_DB_URI
-
 
   if (cachedDb) {
     return cachedDb
@@ -18,6 +16,5 @@ async function connectToDatabase() {
   cachedDb = db
   return db
 }
-
 
 module.exports = connectToDatabase

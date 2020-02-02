@@ -1,8 +1,6 @@
 const connectToDatabase = require('../../helpers/dbHelper')
 
-
 module.exports = async (req, res) => {
-
   const db = await connectToDatabase()
 
   console.log('connected')
@@ -15,5 +13,5 @@ module.exports = async (req, res) => {
 
   const users = await collection.find({}).toArray()
 
-  res.status(200).send(users);
+  res.status(200).send(users)
 }
