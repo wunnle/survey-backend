@@ -1,17 +1,31 @@
 const connectToDatabase = require('../../helpers/dbHelper')
+const { compare } = require('../../helpers/passwordHelper')
 
 module.exports = async (req, res) => {
-  const db = await connectToDatabase()
+  console.log(req.method)
 
-  console.log('connected')
+  console.log(req.body)
 
-  const collection = await db.collection('topics')
+  if (req.method === 'POST' && req.body && req.body.username && req.body.password) {
+    console.log('considering!')
 
-  const count = await collection.count()
+    if (req.body.username === 'guest') {
+      const db = await connectToDatabase()
 
-  console.log(count)
+      const collection = await db.collection('users')
 
-  const users = await collection.find({}).toArray()
+      const users = await collection.find({ username: 'guest' }).toArray()
 
-  res.status(200).send(users)
+      const passwordHash = users[0].passwordHash
+
+      if (compare(req.body.password, passwordHash)) {
+        res.end('good dog')
+      } else {
+        res.end('bad dog')
+      }
+    }
+  } else {
+    res.status(500)
+    res.end('error')
+  }
 }
