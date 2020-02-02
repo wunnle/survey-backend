@@ -7,7 +7,7 @@ module.exports = async (_req, res) => {
 
   const collection = await db.collection('topics')
 
-  const users = await collection.find({}).toArray()
+  const topics = await collection.find({}).toArray()
 
-  res.status(200).send(users)
+  res.status(200).send(topics)
 }
