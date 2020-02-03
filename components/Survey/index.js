@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useReducer } from 'react'
 
 import lightLogo from './lightLogo.inline.svg'
@@ -94,6 +94,12 @@ const Survey = ({ data, pass }) => {
   const [isLoading, setLoading] = useState()
   const [isErred, setErred] = useState()
 
+  useEffect(() => {
+    if (localStorage.getItem('submittedSurvey')) {
+      setResult(data)
+    }
+  }, [])
+
   async function handleSubmit() {
     setLoading(true)
     try {
@@ -119,12 +125,11 @@ const Survey = ({ data, pass }) => {
         })
       })
       const data = await res.json()
-      console.log({ data })
 
       setLoading(false)
       setResult(data)
+      localStorage.setItem('submittedSurvey', true)
     } catch (error) {
-      console.log('something went wrong')
       setLoading(false)
       setErred(true)
     }
