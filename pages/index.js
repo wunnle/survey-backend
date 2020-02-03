@@ -2,10 +2,14 @@ import Survey from '../components/Survey'
 import '../styles/common.css'
 import fetch from 'isomorphic-unfetch'
 import { server } from '../config'
+import { useRouter } from 'next/router'
 
 const Page = ({ surveyData }) => {
-  if (surveyData) {
-    return <Survey data={surveyData} />
+  const router = useRouter()
+  const pass = router.query.p
+
+  if (surveyData && pass) {
+    return <Survey data={surveyData} pass={pass} />
   }
 
   return 'error white fetching data'

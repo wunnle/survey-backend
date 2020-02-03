@@ -76,9 +76,41 @@ function upvoteAction(topicKey) {
   }
 }
 
-const Survey = ({ data }) => {
-  const [isShowingResults, setShowingResults] = useState()
+const Survey = ({ data, pass }) => {
   const [state, dispatch] = useReducer(reducer, createInitialState(data))
+  const [result, setResult] = useState()
+
+  async function handleSubmit() {
+    try {
+      const res = await fetch('/api/rate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify({
+          username: 'guest',
+          password: pass,
+          updates: [
+            {
+              topicId: 1,
+              rate: 1
+            },
+            {
+              topicId: 2,
+              rate: 2
+            }
+          ]
+        })
+      })
+      const data = await res.json()
+      console.log({ data })
+
+      setResult(data)
+    } catch (error) {
+      console.log('something went wrong')
+    }
+  }
 
   function handleTopicClick(topicId) {
     if (state.remainingCoins) {
@@ -92,13 +124,13 @@ const Survey = ({ data }) => {
         <header className={styles.header}>
           <img src={lightLogo} alt="wunnle" />
         </header>
-        {isShowingResults ? (
-          <Results {...state} />
+        {result ? (
+          <Results result={result} />
         ) : (
           <Questions
             {...state}
             handleReset={() => dispatch({ type: 'RESET' })}
-            handleSubmit={() => setShowingResults(true)}
+            handleSubmit={handleSubmit}
             handleTopicClick={handleTopicClick}
           />
         )}
