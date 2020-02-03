@@ -5,6 +5,7 @@ import lightLogo from './lightLogo.inline.svg'
 import Questions from './Questions'
 import Results from './Results'
 import styles from './Survey.module.css'
+import Loading from './Loading'
 
 function createInitialState(surveyData) {
   return {
@@ -79,8 +80,10 @@ function upvoteAction(topicKey) {
 const Survey = ({ data, pass }) => {
   const [state, dispatch] = useReducer(reducer, createInitialState(data))
   const [result, setResult] = useState()
+  const [isLoading, setLoading] = useState()
 
   async function handleSubmit() {
+    setLoading(true)
     try {
       const res = await fetch('/api/rate', {
         method: 'POST',
@@ -106,9 +109,11 @@ const Survey = ({ data, pass }) => {
       const data = await res.json()
       console.log({ data })
 
+      setLoading(false)
       setResult(data)
     } catch (error) {
       console.log('something went wrong')
+      setLoading(false)
     }
   }
 
@@ -124,9 +129,10 @@ const Survey = ({ data, pass }) => {
         <header className={styles.header}>
           <img src={lightLogo} alt="wunnle" />
         </header>
-        {result ? (
-          <Results result={result} />
-        ) : (
+
+        {isLoading && <Loading />}
+        {!isLoading && result && <Results result={result} />}
+        {!isLoading && !result && (
           <Questions
             {...state}
             handleReset={() => dispatch({ type: 'RESET' })}
