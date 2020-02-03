@@ -77,10 +77,22 @@ function upvoteAction(topicKey) {
   }
 }
 
+const Wrapper = ({ children }) => (
+  <div className={styles.wrapper}>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <img src={lightLogo} alt="wunnle" />
+      </header>
+      {children}
+    </div>
+  </div>
+)
+
 const Survey = ({ data, pass }) => {
   const [state, dispatch] = useReducer(reducer, createInitialState(data))
   const [result, setResult] = useState()
   const [isLoading, setLoading] = useState()
+  const [isErred, setErred] = useState()
 
   async function handleSubmit() {
     setLoading(true)
@@ -114,6 +126,7 @@ const Survey = ({ data, pass }) => {
     } catch (error) {
       console.log('something went wrong')
       setLoading(false)
+      setErred(true)
     }
   }
 
@@ -123,25 +136,31 @@ const Survey = ({ data, pass }) => {
     }
   }
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <img src={lightLogo} alt="wunnle" />
-        </header>
+  if (isErred) {
+    return <Wrapper>You are not authorized</Wrapper>
+  }
 
-        {isLoading && <Loading />}
-        {!isLoading && result && <Results result={result} />}
-        {!isLoading && !result && (
-          <Questions
-            {...state}
-            handleReset={() => dispatch({ type: 'RESET' })}
-            handleSubmit={handleSubmit}
-            handleTopicClick={handleTopicClick}
-          />
-        )}
-      </div>
-    </div>
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <Loading />
+      </Wrapper>
+    )
+  }
+
+  return (
+    <Wrapper>
+      {result ? (
+        <Results result={result} />
+      ) : (
+        <Questions
+          {...state}
+          handleReset={() => dispatch({ type: 'RESET' })}
+          handleSubmit={handleSubmit}
+          handleTopicClick={handleTopicClick}
+        />
+      )}
+    </Wrapper>
   )
 }
 

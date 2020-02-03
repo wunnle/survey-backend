@@ -9,6 +9,7 @@
   height: 50px;
   cursor: pointer;
   user-select: none;
+  color: black;
 }
 
 .topic + .topic {
