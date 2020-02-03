@@ -19,7 +19,7 @@ const Results = ({ result }) => (
 const Result = ({ name, rate, index }) => (
   <div className={styles.result}>
     <div className={styles.topicName}>
-      {index}. {name}
+      {index + 1}. {name}
     </div>
     <div className={styles.topicRate}>
       {rate} <Coin />
