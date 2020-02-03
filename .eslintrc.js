@@ -5,7 +5,8 @@ module.exports = {
 	},
 	'extends': [
 		'eslint:recommended',
-		"plugin:prettier/recommended"
+		"plugin:prettier/recommended",
+		"plugin:react/recommended",
 	],
 	'globals': {
 		'Atomics': 'readonly',
@@ -37,11 +38,12 @@ module.exports = {
         "avoidEscape": true,
         "allowTemplateLiterals": true
       }
-    ],
+		],
+		"react/react-in-jsx-scope": "off",
 		'semi': 0,
 		"comma-dangle": 0,
     "max-len": 0,
     "multiline-ternary": ["error", "always-multiline"],
-    "no-console": 0
+		"no-console": 0
 	}
 }

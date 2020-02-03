@@ -1,22 +1,30 @@
 {
-  "name": "survey-api",
+  "name": "token-survey",
   "version": 2,
   "builds": [
     {
-        "src": "/api/**/*.js",
-        "use": "@now/node"
+      "src": "/api/**/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@now/next"
     }
   ],
   "routes": [
     {
       "src": "/rate",
       "dest": "/api/rate",
-      "methods": ["POST"]
+      "methods": [
+        "POST"
+      ]
     },
     {
       "src": "/results",
       "dest": "/api/results",
-      "methods": ["GET"]
+      "methods": [
+        "GET"
+      ]
     }
   ],
   "env": {
