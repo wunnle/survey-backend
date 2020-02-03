@@ -35,7 +35,7 @@ const Questions = ({
         How much would you be interested in following topics for our next meeting?
       </h1>
       {Object.values(topics).map(t => (
-        <Topic {...t} handleClick={() => handleTopicClick(t.key)} />
+        <Topic {...t} key={t.topicId} handleClick={() => handleTopicClick(t.topicId)} />
       ))}
     </div>
     <BottomBar

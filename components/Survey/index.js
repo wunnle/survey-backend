@@ -6,30 +6,22 @@ import Questions from './Questions'
 import Results from './Results'
 import styles from './Survey.module.css'
 
-const initialState = {
-  totalCoins: 5,
-  remainingCoins: 5,
-  topics: {
-    1: {
-      content: 'Creating first react app',
-      rating: 0,
-      key: 1
-    },
-    2: {
-      content: 'Functional components',
-      rating: 0,
-      key: 2
-    },
-    3: {
-      content: 'Redux',
-      rating: 0,
-      key: 3
-    },
-    4: {
-      content: 'Custom hooks',
-      rating: 0,
-      key: 4
-    }
+function createInitialState(surveyData) {
+  return {
+    totalCoins: 5,
+    remainingCoins: 5,
+    topics: surveyData.reduce((prev, current) => {
+      const { name, topicId } = current
+
+      return {
+        ...prev,
+        [topicId]: {
+          name,
+          topicId,
+          rate: 0
+        }
+      }
+    }, {})
   }
 }
 
@@ -45,14 +37,29 @@ function reducer(state, action) {
           ...state.topics,
           [action.payload.topicKey]: {
             ...topic,
-            rating: topic.rating + 1
+            rate: topic.rate + 1
           }
         }
       }
     }
 
     case 'RESET': {
-      return initialState
+      return {
+        ...state,
+        remainingCoins: state.totalCoins,
+        topics: Object.values(state.topics).reduce((prev, current) => {
+          const { topicId, name } = current
+
+          return {
+            ...prev,
+            [topicId]: {
+              name,
+              topicId,
+              rate: 0
+            }
+          }
+        }, {})
+      }
     }
 
     default:
@@ -69,23 +76,21 @@ function upvoteAction(topicKey) {
   }
 }
 
-const Survey = () => {
+const Survey = ({ data }) => {
   const [isShowingResults, setShowingResults] = useState()
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, createInitialState(data))
 
-  function handleTopicClick(key) {
+  function handleTopicClick(topicId) {
     if (state.remainingCoins) {
-      dispatch(upvoteAction(key))
+      dispatch(upvoteAction(topicId))
     }
   }
-
-  console.log({ Questions })
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <header className={styles.header}>
-          <img src={lightLogo} alt='wunnle' />
+          <img src={lightLogo} alt="wunnle" />
         </header>
         {isShowingResults ? (
           <Results {...state} />

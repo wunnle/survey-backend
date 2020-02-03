@@ -40,6 +40,7 @@ module.exports = {
       }
 		],
 		"react/react-in-jsx-scope": "off",
+		"react/prop-types": "off",
 		'semi': 0,
 		"comma-dangle": 0,
     "max-len": 0,
