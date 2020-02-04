@@ -17,7 +17,9 @@ const Page = ({ surveyData }) => {
 
 Page.getInitialProps = async () => {
   const res = await fetch(server + '/api/results')
+
   const surveyData = await res.json()
+
   return { surveyData }
 }
 

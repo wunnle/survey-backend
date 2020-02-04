@@ -46,6 +46,7 @@
 
 @media screen and (min-width: 700px) {
   .bottomBar {
-    position: absolute;
+    position: sticky;
+    bottom: 0;
   }
 }
