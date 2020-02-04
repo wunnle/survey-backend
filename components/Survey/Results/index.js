@@ -3,10 +3,12 @@ import React from 'react'
 import Coin from '../Coin'
 import styles from './Results.module.css'
 
-const Results = ({ result }) => (
+const Results = ({ result, isActive }) => (
   <div className={styles.content}>
-    <h1 className={styles.title}>Thanks for your input</h1>
-    <h2 className={styles.subtitle}>Here are the results so far:</h2>
+    <h1 className={styles.title}>
+      {isActive ? 'Thanks for your input' : 'Survey is closed'}
+    </h1>
+    <h2 className={styles.subtitle}>Here are the results {isActive ? 'so far' : ''}:</h2>
 
     {Object.values(result)
       .sort((a, b) => b.rate - a.rate)

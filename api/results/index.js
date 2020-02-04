@@ -9,5 +9,12 @@ module.exports = async (_req, res) => {
 
   const topics = await collection.find({}).toArray()
 
-  res.status(200).send(topics)
+  const statusCollection = await db.collection('status')
+
+  const statuses = await statusCollection.find({}).toArray()
+
+  res.status(200).send({
+    topics,
+    isActive: statuses[0].active
+  })
 }

@@ -88,11 +88,17 @@ const Wrapper = ({ children }) => (
   </div>
 )
 
-const Survey = ({ data, pass }) => {
+const Survey = ({ data, pass, isActive }) => {
   const [state, dispatch] = useReducer(reducer, createInitialState(data))
   const [result, setResult] = useState()
   const [isLoading, setLoading] = useState()
   const [isErred, setErred] = useState()
+
+  useEffect(() => {
+    if (!isActive) {
+      setResult(data)
+    }
+  })
 
   useEffect(() => {
     if (localStorage.getItem('submittedSurvey')) {
@@ -156,7 +162,7 @@ const Survey = ({ data, pass }) => {
   return (
     <Wrapper>
       {result ? (
-        <Results result={result} />
+        <Results result={result} isActive={isActive} />
       ) : (
         <Questions
           {...state}
