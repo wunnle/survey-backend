@@ -101,13 +101,19 @@ const Survey = ({ data, pass, isActive }) => {
   })
 
   useEffect(() => {
-    if (localStorage.getItem('submittedSurvey')) {
+    if (localStorage.getItem('submittedSurvey3')) {
       setResult(data)
     }
   }, [])
 
   async function handleSubmit() {
     setLoading(true)
+
+    console.log(
+      Object.values(state.topics)
+        .filter(t => t.rate > 0)
+        .map(t => ({ topicId: t.topicId, rate: t.rate }))
+    )
     try {
       const res = await fetch('/api/rate', {
         method: 'POST',
@@ -118,23 +124,16 @@ const Survey = ({ data, pass, isActive }) => {
         body: JSON.stringify({
           username: 'guest',
           password: pass,
-          updates: [
-            {
-              topicId: 1,
-              rate: 1
-            },
-            {
-              topicId: 2,
-              rate: 2
-            }
-          ]
+          updates: Object.values(state.topics)
+            .filter(t => t.rate > 0)
+            .map(t => ({ topicId: t.topicId, rate: t.rate }))
         })
       })
       const data = await res.json()
 
       setLoading(false)
       setResult(data)
-      localStorage.setItem('submittedSurvey', true)
+      localStorage.setItem('submittedSurvey3', true)
     } catch (error) {
       setLoading(false)
       setErred(true)
