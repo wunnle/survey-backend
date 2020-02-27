@@ -101,7 +101,7 @@ const Survey = ({ data, pass, isActive }) => {
   })
 
   useEffect(() => {
-    if (localStorage.getItem('submittedSurvey3')) {
+    if (localStorage.getItem(`submittedSurvey${pass}`)) {
       setResult(data)
     }
   }, [])
@@ -133,7 +133,7 @@ const Survey = ({ data, pass, isActive }) => {
 
       setLoading(false)
       setResult(data)
-      localStorage.setItem('submittedSurvey3', true)
+      localStorage.setItem(`submittedSurvey${pass}`, true)
     } catch (error) {
       setLoading(false)
       setErred(true)
